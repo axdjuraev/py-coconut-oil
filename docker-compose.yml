@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  py-coconut-oil:
+    container_name: py-coconut-oil 
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+    - ./logs:/app/logs
+    ports:
+    - "9393:8000"

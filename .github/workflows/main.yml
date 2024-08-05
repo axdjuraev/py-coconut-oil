@@ -1,0 +1,29 @@
+name: py-coconut-oil-main-(ship)
+
+on:
+  push:
+    branches:
+      - "mucho"
+
+env:
+  ENV_FILE_URI: ${{ secrets.ENV_FILE_URI }}
+  WORKING_PATH: '/var/api/py-coconut-oil/'
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, ticketer-main]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Clean-Extra-Files
+        run: |
+          rm -rf .git
+
+      - name: Move files to working path
+        run: |
+          cp -r . $WORKING_PATH
+
+      - name: deploying service
+        run: |
+          cd $WORKING_PATH
+          curl $ENV_FILE_URI -o .env
+          docker compose up --build -d

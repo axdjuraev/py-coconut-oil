@@ -1,0 +1,66 @@
+{
+    "version": 1,
+    "disable_existing_loggers": false,
+    "formatters": {
+        "simple": {
+            "format": "%(levelname)s: %(message)s"
+        },
+        "detailed": {
+            "format": "[%(levelname)s|%(module)s|L%(lineno)d][%(asctime)s]: %(message)s",
+            "datefnt": "%Y-%m-%dT%H:%M:%S%z"
+        },
+        "json": {
+            "()": "grateful_logging.formatter.json.JSONFormatter",
+            "datefmt": "%Y-%m-%dT%H:%M:%S%z",
+            "include_keys": {
+                "level": "levelname",
+                "message": "message",
+                "timestamp": "asctime",
+                "logger": "name",
+                "module": "module",
+                "function": "funcName",
+                "line": "lineno",
+                "thread_name": "threadName",
+                "stack_info": "stack_info",
+                "exc_info": "exc_info",
+                "extra": "extra"
+            },
+            "always_keys": [
+                "message",
+                "asctime"
+            ]
+        }
+    },
+    "handlers": {
+        "afile": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "level": "DEBUG",
+            "formatter": "json",
+            "filename": "logs/log.jsonl",
+            "maxBytes": 20971520,
+            "backupCount": 5
+        },
+        "astdout": {
+            "class": "logging.StreamHandler",
+            "level": "DEBUG",
+            "formatter": "simple",
+            "stream": "ext://sys.stdout"
+        },
+        "queue_handler": {
+            "()": "grateful_logging.handler.queue.QueueHandler",
+            "handlers": [
+                "afile",
+                "astdout"
+            ],
+            "respect_handler_level": true
+        }
+    },
+    "loggers": {
+        "root": {
+            "level": "DEBUG",
+            "handlers": [
+                "queue_handler"
+            ]
+        }
+    }
+}
