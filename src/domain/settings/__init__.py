@@ -4,6 +4,7 @@ __all__ = [
     'DatabaseSettings',
     'AppSettings',
     'JWTSettings',
+    'AiogramSettings',
 ]
 
 
@@ -12,3 +13,4 @@ from .minio_store import MinioStoreSettings
 from .database import DatabaseSettings
 from .app import AppSettings
 from .jwt import JWTSettings
+from .aiogram import AiogramSettings
